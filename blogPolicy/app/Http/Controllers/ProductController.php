@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\ProductRepositoryInterface;
-use App\Repositories\ProductRepository;
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Product;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 {
+    use AuthorizesRequests;
     protected $productRepository;
 
     public function __construct(ProductRepositoryInterface $productRepository)
@@ -55,14 +54,13 @@ class ProductController extends Controller
         $product->created_at = $product->created_at->format('Y-m-d H:i:s');
 
         // $product = Product::create([$request]);
+        $product->load('user');
         return response()->json($product);
     }
 
     public function destroy(Product $product)
     {
-        if (Gate::denies('delete', $product)) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        $this->authorize('delete', $product);
 
         $product->delete();
         return response()->json(['message' => 'Blog deleted successfully']);

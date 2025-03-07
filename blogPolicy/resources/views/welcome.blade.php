@@ -107,6 +107,7 @@
 
                         $("#productTable tbody").append(`
                         <tr id="product-${response.id}">
+                            <td>${response.user.name }</td>
                             <td>${response.title}</td>
                             <td class="text-truncate" style="max-width: 300px;">${response.content}</td>
                             <td>${formattedDate}</td>

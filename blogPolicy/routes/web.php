@@ -4,10 +4,11 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/products', [ProductController::class, 'index'])->middleware('auth');
+// Route::get('/products', [ProductController::class, 'index'])->middleware('auth');
 Route::get('/public', [ProductController::class, 'home']);
-Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+// Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+// Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+Route::resource('/products', ProductController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -19,4 +20,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
